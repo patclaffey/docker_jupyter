@@ -24,6 +24,8 @@ Docker must be installed on your system
 ### Clone repository
 Download the software from GitHub into a project directory.  The project directory will look like this:
 
+
+```
 Project Directory
 --- Dockerfile  the Docker file that defines the Jupyter image.
                 For this project the image is named jupyter_notebook_image
@@ -39,7 +41,7 @@ Project Directory
          ---   activity_speed.csv  this csv contains the sample data
 --- notebooks  sub-directory under Project Directory to hold notebook documents
     --- activity speed analysis.ipynb   this is a sample jupyter notebook
-
+```
 
 ### Add public key file to Project Directory
 If you have a public key file named mycert.pem then just copy it to project directory.  If not you need to generate your own public key file with this name.
