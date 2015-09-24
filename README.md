@@ -22,7 +22,7 @@ Docker must be installed on your system
 
 
 ### Clone repository
-Afer cloning this repository (and adding mycert.pemi as per next section) the  project directory should look like this:
+Afer cloning this repository (and adding mycert.pem as per next section) the  project directory should look like this:
 
 ```
 project directory
