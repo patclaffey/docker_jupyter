@@ -22,10 +22,10 @@ Docker must be installed on your system
 
 
 ### Clone repository
-Afer cloning this repository (and adding mycert.pem as per next section) the  project directory should look like this:
+Afer cloning this repository (and adding mycert.pem as per next section) the docker_jupyter project directory should look like this:
 
 ```
-project directory
+docker_jupyter        - this is the project directory
 --- Dockerfile  the Docker file that defines the Jupyter image.
                 For this project the image is named jupyter_notebook_image
 --- mycert.pem  you need to add this file manually - not part of download 
