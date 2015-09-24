@@ -10,9 +10,9 @@ Also it requires setting up a logon password in the Jupyter configuration file.
 ## Pre-requisites.
 
 Docker must be installed on your system
+
 To avoid having to use `sudo` with the `docker` command, add your user to the docker group as follows:
-```
-sudo usermod -aG docker user_name
+```sudo usermod -aG docker user_name
 ```
 
 If running on a public network ensure firewall is open so that port 8888 can accept inbound requests
@@ -71,7 +71,7 @@ from the project directory execute the following script:
 Use `docker ps` command to verify contaner named jupyter_container is running.
  
 ### Logon to Jupyter Notebook
-Go to https://<<your public IP Address>>>:8888 to logon to Jupyter (note this is https and not http).  On a PC the address is usually https://127.0.0.1:8888, however on a public network it will be the public IP or DNS address.
+Go to https://your_public_IP_Address:8888 to logon to Jupyter (note this is https and not http).  On a PC the address is usually https://127.0.0.1:8888, however on a public network it will be the public IP or DNS address.
 
 Your browser will warn you of a dangerous certificate because it is self-signed. Ignore this warning and go to Jupyter logon screen. 
 The login password is "password" (all lowercase letters, do not type quotes). 
