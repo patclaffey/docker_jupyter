@@ -22,11 +22,10 @@ Docker must be installed on your system
 
 
 ### Clone repository
-Download the software from GitHub into a project directory.  The project directory will look like this:
-
+Afer cloning this repository (add adding mycert.pem) the  project directory should look like this:
 
 ```
-Project Directory
+project directory
 --- Dockerfile  the Docker file that defines the Jupyter image.
                 For this project the image is named jupyter_notebook_image
 --- mycert.pem  you need to add this file manually - not part of download 
@@ -46,21 +45,26 @@ Project Directory
 ### Add public key file to Project Directory
 If you have a public key file named mycert.pem then just copy it to project directory.  If not you need to generate your own public key file with this name.
 
+A self-signed certificate can be generated with openssl. For example, the following command will create a certificate valid for 365 days with both the key and certificate data written to the same file:
+```
+$ openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout mycert.pem -out mycert.pem
+```
+
 ### Build the Docker image for Jupyter
 from the project directory execute the following script:
 ./build_jupyter_image.sh
-Use "docker image" command to verify image named jupyter_image has been created successfully 
+Use `docker image` command to verify image named jupyter_image has been created successfully 
 
 
 ### Run the Docker Container
 from the project directory execute the following script:
 ./run_jupyter_container.sh
-Use "docker ps" command to verify contaner named jupyter_container is running.
+Use `docker ps` command to verify contaner named jupyter_container is running.
  
 ### Logon to Jupyter Notebook
 Go to the url https://127.0.0.1:8888 to logon to Jupyter (note this is https and not http).
+Your browser will warn you of a dangerous certificate because it is self-signed.Continue and you should see the Jupyter logon screen.
 The password is "password" (all lowercase letters, do not type quotes). 
-Contents of Config File
 You should see the sample notebook called "activity speed analysis".  You can open this notebook and make any changes you wish.
 
 
