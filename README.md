@@ -12,7 +12,8 @@ Also it requires setting up a logon password in the Jupyter configuration file.
 Docker must be installed on your system
 
 To avoid having to use `sudo` with the `docker` command, add your user to the docker group as follows:
-```sudo usermod -aG docker user_name
+```
+sudo usermod -aG docker user_name
 ```
 
 If running on a public network ensure firewall is open so that port 8888 can accept inbound requests
