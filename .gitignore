@@ -1,0 +1,3 @@
+mycert.pem
+notebooks/.ipynb_checkpoints/*
+/home/pat/docker/notebook/jupyter_notebook/notebooks/.ipynb_checkpoints/*
