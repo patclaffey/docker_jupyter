@@ -1,24 +1,24 @@
 # Jupyter Notebook in a Docker Container
 This project installs and runs Jupyter Notebook with Python 3.4 in a Docker container.  Also installed are the Python matplotlib and pandas packages for data visualization and analysis. 
-A sample data set and Notebook is to provided to verify the install - and to demo the use of Jupyter for data analysis.
+A sample data set and notebook is to provided to verify the install - and to demo the use of Jupyter for data analysis.
 
 Jupyter in a container must run in public mode over an SSL connection - even on a private network.
-This complicates the Jupyter setup because the Docker impage must contain a public key file.
-Also a logon password needs to be defined in the Jupyter configuration file.
+This complicates the Jupyter setup as the Docker image must contain a public key file.
+Also it requires setting up a logon password in the Jupyter configuration file.
 
 
 ## Pre-requisites.
 
-1.0  Docker must be installed on your system
+Docker must be installed on your system
 
 
 ## Software Installation Steps
 
-1.0	Download the project from GitHub and install in your project directory
-2.0	Add public key file called mycert.pem to the project directory
-3.0     Create the project docker image
-4.0	Create and run the Docker Container
-5.0	Logon to Jupyter and view the sample notebook
+- clone this repository
+- add public key file called mycert.pem to the project directory
+- build the project docker image
+- create and run the Docker Container
+- logon to Jupyter and view the sample notebook
 
 
 ### Clone repository
