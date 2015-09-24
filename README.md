@@ -1,6 +1,6 @@
 # Jupyter Notebook in a Docker Container
 This project installs and runs Jupyter Notebook with Python 3.4 in a Docker container.  Also installed are the Python matplotlib and pandas packages for data visualization and analysis. 
-A sample data set and notebook is to provided to verify the install - and to demo the use of Jupyter for data analysis.
+A sample data set and notebook is provided to verify the install - and to demo the use of Jupyter for data analysis.
 
 Jupyter in a container must run in public mode over an SSL connection - even on a private network.
 This complicates the Jupyter setup as the Docker image must contain a public key file.
@@ -22,7 +22,7 @@ Docker must be installed on your system
 
 
 ### Clone repository
-Afer cloning this repository (add adding mycert.pem) the  project directory should look like this:
+Afer cloning this repository (and adding mycert.pemi as per next section) the  project directory should look like this:
 
 ```
 project directory
@@ -42,7 +42,7 @@ project directory
     --- activity speed analysis.ipynb   this is a sample jupyter notebook
 ```
 
-### Add public key file to Project Directory
+### Add public key file to project directory
 If you have a public key file named mycert.pem then just copy it to project directory.  If not you need to generate your own public key file with this name.
 
 A self-signed certificate can be generated with openssl. For example, the following command will create a certificate valid for 365 days with both the key and certificate data written to the same file:
@@ -52,18 +52,22 @@ $ openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout mycert.pem -out my
 
 ### Build the Docker image for Jupyter
 from the project directory execute the following script:
+```
 ./build_jupyter_image.sh
-Use `docker image` command to verify image named jupyter_image has been created successfully 
+```
+Use `docker image` command to verify that image named jupyter_image has been created successfully 
 
 
-### Run the Docker Container
+### Run the Docker container
 from the project directory execute the following script:
+```
 ./run_jupyter_container.sh
+```
 Use `docker ps` command to verify contaner named jupyter_container is running.
  
 ### Logon to Jupyter Notebook
 Go to the url https://127.0.0.1:8888 to logon to Jupyter (note this is https and not http).
-Your browser will warn you of a dangerous certificate because it is self-signed.Continue and you should see the Jupyter logon screen.
+Your browser will warn you of a dangerous certificate because it is self-signed.Ignore this ware and proceed to Jupyter logon screen. 
 The password is "password" (all lowercase letters, do not type quotes). 
 You should see the sample notebook called "activity speed analysis".  You can open this notebook and make any changes you wish.
 
