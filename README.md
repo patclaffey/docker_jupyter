@@ -66,9 +66,9 @@ from the project directory execute the following script:
 Use `docker ps` command to verify contaner named jupyter_container is running.
  
 ### Logon to Jupyter Notebook
-Go to the url https://127.0.0.1:8888 to logon to Jupyter (note this is https and not http).
-Your browser will warn you of a dangerous certificate because it is self-signed.Ignore this ware and proceed to Jupyter logon screen. 
-The password is "password" (all lowercase letters, do not type quotes). 
+Go to https://127.0.0.1:8888 to logon to Jupyter (note this is https and not http).
+Your browser will warn you of a dangerous certificate because it is self-signed. Ignore this warning and go to Jupyter logon screen. 
+The login password is "password" (all lowercase letters, do not type quotes). 
 You should see the sample notebook called "activity speed analysis".  You can open this notebook and make any changes you wish.
 
 
