@@ -10,7 +10,12 @@ Also it requires setting up a logon password in the Jupyter configuration file.
 ## Pre-requisites.
 
 Docker must be installed on your system
+To avoid having to use `sudo` with the `docker` command, add your user to the docker group as follows:
+```
+sudo usermod -aG docker user_name
+```
 
+If running on a public network ensure firewall is open so that port 8888 can accept inbound requests
 
 ## Software Installation Steps
 
@@ -43,12 +48,12 @@ docker_jupyter        - this is the project directory
 ```
 
 ### Add public key file to project directory
-If you have a public key file named mycert.pem then just copy it to project directory.  If not you need to generate your own public key file with this name.
 
 A self-signed certificate can be generated with openssl. For example, the following command will create a certificate valid for 365 days with both the key and certificate data written to the same file:
 ```
 $ openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout mycert.pem -out mycert.pem
 ```
+When running above command accept all defaults
 
 ### Build the Docker image for Jupyter
 from the project directory execute the following script:
@@ -66,11 +71,9 @@ from the project directory execute the following script:
 Use `docker ps` command to verify contaner named jupyter_container is running.
  
 ### Logon to Jupyter Notebook
-Go to https://127.0.0.1:8888 to logon to Jupyter (note this is https and not http).
+Go to https://<<your public IP Address>>>:8888 to logon to Jupyter (note this is https and not http).  On a PC the address is usually https://127.0.0.1:8888, however on a public network it will be the public IP or DNS address.
+
 Your browser will warn you of a dangerous certificate because it is self-signed. Ignore this warning and go to Jupyter logon screen. 
 The login password is "password" (all lowercase letters, do not type quotes). 
 You should see the sample notebook called "activity speed analysis".  You can open this notebook and make any changes you wish.
 
-
- 
-                
