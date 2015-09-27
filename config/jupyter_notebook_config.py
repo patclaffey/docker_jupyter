@@ -81,7 +81,7 @@ c.NotebookApp.ip = '*'
 # c.NotebookApp.cookie_secret = b''
 
 # The full path to an SSL/TLS certificate file.
-c.NotebookApp.certfile = '/opt/notebook/mycert.pem'
+c.NotebookApp.certfile = '/opt/jupyter/config/mycert.pem'
 
 # The base URL for websockets, if it differs from the HTTP server (hint: it
 # almost certainly doesn't).

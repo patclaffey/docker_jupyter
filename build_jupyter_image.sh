@@ -1,1 +1,1 @@
-docker build -t jupyter_image .
+docker build -t patclaffey/jupyter_pandas:v2 .
