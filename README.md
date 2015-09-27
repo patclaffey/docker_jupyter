@@ -4,7 +4,7 @@ A sample data set and notebook is provided to verify the install - and to demo t
 
 Jupyter in a container must run in public mode over an SSL connection - even on a private network.
 This complicates the Jupyter setup requiring a public key file,
-and also a Jupyter configuration defining a logon password.
+and also a Jupyter configuration file to define a logon password.
 
 
 ## Pre-requisites.
@@ -23,12 +23,11 @@ If running on a public network ensure firewall is open so that port 8888 can acc
 - clone this GitHub repository
 - generate public key file named mycert.pem 
 - load docker image `patclaffey/jupyter_pandas:v2` from Docker Hub
-- create and run the Docker Container
+- create the Docker Container
 - logon to Jupyter and view the sample notebook
 
 
 ### Clone this GitHub repository
-Clone this GitHub repository
 ```
 git clone git@github.com:patclaffey/docker_jupyter.git
 ```
