@@ -1,5 +1,7 @@
 FROM ubuntu:14.04
 MAINTAINER  pat claffey patclaffey@gmail.com
+# last updated: 18-Oct-2015
+# why: needed to upgrade matplotlib to latest release
 
 # this image runs jupyter notebook with Python 3.4
 # jupyter uses notebook document version 4.0 (latest)
@@ -12,13 +14,17 @@ MAINTAINER  pat claffey patclaffey@gmail.com
 # do NOT inlcude ipython3 in the image as it may conflict with jupyter
 # Python 3.4 is pre-installed on ubuntu image
 
+#http://stackoverflow.com/questions/9829175/pip-install-matplotlib-error-with-virtualenv
 RUN apt-get update && \
 	apt-get install -y python3-pip && \
-	apt-get install -y python3-matplotlib && \
-	apt-get install -y python3-pandas 
+        apt-get install -y libpng-dev && \
+	apt-get install -y libfreetype6-dev && \
+	apt-get install -y  pkg-config 
 
-# using pip3 to install jupyter
+# using pip3 to install python packages 
 RUN pip3 install jupyter
+RUN pip3 install pandas
+RUN pip3 install matplotlib
 
 # default port of Jupyter
 EXPOSE 8888
