@@ -1,0 +1,13 @@
+jupyter:
+   image: patclaffey/jupyter_pandas:v3
+
+   container_name: jupyter
+
+   ports: 
+     - "8888:8888"
+
+   volumes:
+     - ${PWD}/config/:/opt/jupyter/config/
+     - ${PWD}/data/:/opt/jupyter/data/
+     - ${PWD}/notebooks/:/opt/jupyter/notebooks/
+
