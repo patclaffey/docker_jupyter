@@ -21,10 +21,13 @@ RUN apt-get update && \
 	apt-get install -y libfreetype6-dev && \
 	apt-get install -y  pkg-config 
 
+# dependencies for scipy
+RUN apt-get -y install libblas-dev liblapack-dev gfortran
 # using pip3 to install python packages 
 RUN pip3 install jupyter
 RUN pip3 install pandas
 RUN pip3 install matplotlib
+RUN pip3 install scipy sklearn
 
 # default port of Jupyter
 EXPOSE 8888
