@@ -6,6 +6,9 @@ from pytz import common_timezones, all_timezones, timezone
 
 tz_local = timezone('Europe/Dublin')
 
+
+
+
 # requried for formating
 def hours(x, pos):
     'The two args are the value and tick position'
@@ -90,6 +93,8 @@ def wrap_axes(plot_axes_in):
                 bbox={'facecolor': plot_control['plot_color'] , 'color': plot_control['plot_color'] ,
                       'alpha':0.7, 'pad':5})
         
+        #axes.set_ylim( [100,150])
+        
     return new_plot_axes
     
 @wrap_axes
@@ -117,6 +122,24 @@ def hours(x, pos):
     
     return '{:02d}:00'.format(int(x /3600))
 
+def hours_v2(time_delta, pos):
+    hr = int(( time_delta )/3600) 
+    minu = int ( ( ( time_delta )/3600 % 1 ) * 60) 
+    sec = int ((( ( time_delta )/3600 % 1 ) * 60 % 1) * 60 ) 
+    return "{:02}:{:02}:{:02}".format(hr,minu,sec)
+
+def hours_v3(time_delta, pos):
+    hr = int(( time_delta )/3600) 
+    minu = int ( ( ( time_delta )/3600 % 1 ) * 60) 
+    sec = int ((( ( time_delta )/3600 % 1 ) * 60 % 1) * 60 ) 
+    return "{:02}:{:02}".format(hr,minu)
+
+def hours_v4(time_delta, pos):
+    hr = int(( time_delta )/3600) 
+    minu = int ( ( ( time_delta )/3600 % 1 ) * 60) 
+    sec = int ((( ( time_delta )/3600 % 1 ) * 60 % 1) * 60 ) 
+    return "{:02}:{:02}".format(minu, sec)
+
 def quarter_hours(x, pos):
     'The two args are the value and tick position'
     if x == 0:
@@ -131,21 +154,81 @@ def quarter_hours(x, pos):
         elif x  %  3600  == 2700:
             return '45'
 
+def ten_mins(x, pos):
+    'The two args are the value and tick position'
+    if x == 0:
+        return ''
+    elif x %  3600 == 0:
+        return ''
+    elif x %  1800 == 0:
+        return '30'
+    elif x  %  600 == 0:
+        if x  %  3600  == 600:
+            return '10'
+        elif x  %  3600  == 1200:
+            return '20'
+        elif x  %  3600  == 2400:
+            return '40'
+        elif x  %  3600  == 3000:
+            return '50'        
+        
 @wrap_axes
 def plot_time( df, plot_control,axes ):
     
     df[ plot_control['column'] ].plot(ax=axes,
                 kind='area',color= plot_control['plot_color'] ,alpha = .7); 
     
-    majorLocator   = MultipleLocator(3600)
-    minorLocator   = MultipleLocator(900)
-    formatter = FuncFormatter(hours)
-    minor_formatter = FuncFormatter(quarter_hours)
-
-    axes.xaxis.set_major_locator(majorLocator)
-    axes.xaxis.set_minor_locator(minorLocator)
-    axes.xaxis.set_minor_formatter(minor_formatter)
-    axes.xaxis.set_major_formatter(formatter)
+    #majorLocator   = MultipleLocator(3600)
+    #minorLocator   = MultipleLocator(900)
+    #formatter_v1 = FuncFormatter(hours)
+    #formatter_v2 = FuncFormatter(hours_v2)
+    #minor_formatter = FuncFormatter(quarter_hours)
+    
+    
+    
+    if len(df) > 7200:
+        majorLocator   = MultipleLocator(3600)
+        minorLocator   = MultipleLocator(900)
+        formatter = FuncFormatter(hours)
+        minor_formatter = FuncFormatter(quarter_hours)
+        axes.xaxis.set_major_locator(majorLocator)
+        axes.xaxis.set_minor_locator(minorLocator)
+        axes.xaxis.set_minor_formatter(minor_formatter)
+        axes.xaxis.set_major_formatter(formatter)    
+    elif len(df) > 3600:
+        majorLocator   = MultipleLocator(3600)
+        minorLocator   = MultipleLocator(600)
+        formatter = FuncFormatter(hours)
+        minor_formatter = FuncFormatter(ten_mins)
+        axes.xaxis.set_major_locator(majorLocator)
+        axes.xaxis.set_minor_locator(minorLocator)
+        axes.xaxis.set_minor_formatter(minor_formatter)
+        axes.xaxis.set_major_formatter(formatter)
+    elif len(df) > 1800:
+        majorLocator   = MultipleLocator(300)
+        formatter = FuncFormatter(hours_v3)
+        axes.xaxis.set_major_locator(majorLocator)
+        axes.xaxis.set_major_formatter(formatter)
+    elif len(df) > 600:
+        majorLocator   = MultipleLocator(120)
+        formatter = FuncFormatter(hours_v3)
+        axes.xaxis.set_major_locator(majorLocator)
+        axes.xaxis.set_major_formatter(formatter)
+    elif len(df) > 180:
+        majorLocator   = MultipleLocator(60)
+        formatter = FuncFormatter(hours_v3)
+        axes.xaxis.set_major_locator(majorLocator)
+        axes.xaxis.set_major_formatter(formatter) 
+    elif len(df) > 60:
+        majorLocator   = MultipleLocator(15)
+        formatter = FuncFormatter(hours_v4)
+        axes.xaxis.set_major_locator(majorLocator)
+        axes.xaxis.set_major_formatter(formatter) 
+    else:
+        majorLocator   = MultipleLocator(5)
+        formatter = FuncFormatter(hours_v4)
+        axes.xaxis.set_major_locator(majorLocator)
+        axes.xaxis.set_major_formatter(formatter)
 
 def kms(x, pos):
     'The two args are the value and tick position'
@@ -163,3 +246,23 @@ def plot_distance( df, plot_control, axes ):
     minorLocator   = MultipleLocator(5) 
     axes.xaxis.set_major_formatter(formatter)
     axes.xaxis.set_minor_formatter(formatter)
+    
+    
+def get_view_properties(view_type):
+    if view_type == 'distance':
+        view_description = "By Distance"
+        view_xlabel = 'Km'
+        view_procedure = plot_distance
+        view_units = ' km'
+    elif view_type == 'time':
+        view_description = "By Time"
+        view_xlabel = 'Time'
+        view_procedure = plot_time
+        view_units = ' mins'
+    elif view_type == 'timeline':
+        view_description = "TimeLine"
+        view_xlabel = 'TimeLine'
+        view_procedure = plot_timeline
+        view_units = ' '
+        
+    return (view_description, view_xlabel, view_procedure, view_units )

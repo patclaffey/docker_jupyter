@@ -7,6 +7,89 @@ def get_duration(time_delta):
     return "{:02}:{:02}:{:02}".format(hr,minu,sec)
 
 
+def get_metrics(df, title):
+    
+    metrics = {}
+    
+    metrics['title'] = title
+    
+    if 'time' in df:
+        metrics['start_time'] = df.time[0].to_datetime()
+        metrics['end_time'] = df.time[-1].to_datetime()
+    else:
+        metrics['start_time'] = min(df.index)
+        metrics['end_time'] = max(df.index)
+        
+    metrics['elapsed_time'] = metrics['end_time'] - metrics['start_time']
+    metrics['activity_time'] = timedelta( seconds= int( df.breaks[~df.breaks].count() ) )
+    metrics['break_time'] = timedelta( seconds= int( df.breaks[df.breaks].count() ) )
+    metrics['moving_time'] = timedelta( seconds= int( df.moving[df.moving].count() ) )
+    metrics['non_moving_time'] = timedelta( seconds= int( df.moving[~df.moving].count() ) )
+
+    metrics['distance'] = max(df.distance) - min(df.distance) 
+
+    metrics['max_speed'] = df.speed.max()
+    metrics['avg_speed'] = (metrics['distance'] / metrics['activity_time'].total_seconds()) * 3.6
+    metrics['avg_speed_moving'] = (metrics['distance'] / metrics['moving_time'].total_seconds()) * 3.6
+    #metrics['avg_speed'] = df.speed[~df.breaks].mean()
+
+    metrics[' max_heart_rate'] = df.heart_rate.max()
+    metrics['avg_heart_rate'] = df.heart_rate[~df.breaks].median()
+
+    metrics['max_cadence'] = df.cadence.max()
+    metrics['avg_cadence'] = df.cadence[~df.breaks].median()
+    
+    metrics['start_day_date_str'] = datetime.strftime(metrics['start_time'],'%A, %B %-d, %Y') 
+    metrics['start_hr_min_str'] = datetime.strftime(metrics['start_time'],'%H:%M' )
+    metrics['end_hr_min_str'] = datetime.strftime(metrics['end_time'],'%H:%M' )
+    
+    metrics['headline_time_str'] = '{} to {} on {}'.format(metrics['start_hr_min_str'],\
+                                                           metrics['end_hr_min_str'], metrics['start_day_date_str'])
+    metrics['elapsed_time_str'] = get_duration(metrics['elapsed_time'])
+    metrics['activity_time_str'] = get_duration(metrics['activity_time'])
+    metrics['break_time_str'] = get_duration(metrics['break_time'])
+    metrics['moving_time_str'] = get_duration(metrics['moving_time'])
+    metrics['distance_str'] = '{:.2f} km'.format( metrics['distance'] / 1000 )
+    metrics['avg_speed_str'] = '{:.1f} km/h'.format( metrics['avg_speed'] )
+    metrics['avg_moving_speed_str'] = '{:.1f} km/h'.format( metrics['avg_speed_moving'] )
+    metrics['max_speed_str'] = '{:.1f} km/h'.format( metrics['max_speed'] ) 
+    metrics['avg_heart_rate_str'] = '{:.0f} bpm'.format( metrics['avg_heart_rate'] )
+    metrics['avg_cadence_str'] = '{:.0f} rpm'.format( metrics['avg_cadence'] )
+            
+    return metrics
+
+def create_header(axes, metrics, title, view_type):
+    axes.set_axis_off()
+
+    y_adjust = -.075
+    axes.text(.5,.925 + y_adjust , title , fontsize=20, ha = 'center')
+    axes.text(.15,.8 + y_adjust , view_type, fontsize=12, ha = 'center')
+    axes.text(.675,.8 + y_adjust ,metrics['headline_time_str'], fontsize=12, ha = 'center')
+
+
+    axes.text(.15,.6 + y_adjust ,metrics['activity_time_str'], fontsize=12, ha = 'center', weight='bold',)
+    axes.text(.5,.6 + y_adjust ,metrics['avg_speed_str'], fontsize=12, ha = 'center', weight='bold',)
+    axes.text(.85,.6 + y_adjust ,metrics['distance_str'], fontsize=12, ha = 'center', weight='bold',)
+    axes.text(.15,.525 + y_adjust ,'activity time', fontsize=8, ha = 'center', weight='bold',)
+    axes.text(.5,.525 + y_adjust ,'avg speed', fontsize=8, ha = 'center', weight='bold',)
+    axes.text(.85,.525 + y_adjust ,'distance', fontsize=8, ha = 'center', weight='bold',)
+
+    axes.text(.15,.4 + y_adjust ,metrics['moving_time_str'], fontsize=12, ha = 'center')
+    axes.text(.5,.4 + y_adjust ,metrics['avg_moving_speed_str'] , fontsize=12, ha = 'center')
+    axes.text(.85,.4 + y_adjust , metrics['avg_heart_rate_str'], fontsize=12, ha = 'center')
+    axes.text(.15,.325 + y_adjust ,'moving time', fontsize=8, ha = 'center')
+    axes.text(.5,.325 + y_adjust ,'avg moving speed', fontsize=8, ha = 'center')
+    axes.text(.85,.325 + y_adjust ,'avg heart rate', fontsize=8, ha = 'center')
+
+    axes.text(.15,.2 + y_adjust , metrics['elapsed_time_str']    , fontsize=12, ha = 'center')
+    axes.text(.5,.2 + y_adjust ,metrics['max_speed_str'], fontsize=12, ha = 'center')
+    axes.text(.85,.2 + y_adjust , metrics['avg_cadence_str'], fontsize=12, ha = 'center')
+    axes.text(.15,.125 + y_adjust ,'elapsed time', fontsize=8, ha = 'center')
+    axes.text(.5,.125 + y_adjust ,'max speed', fontsize=8, ha = 'center')
+    axes.text(.85,.125 + y_adjust ,'avg cadence', fontsize=8, ha = 'center')
+  
+
+
 def output_header(df, axes):
     
     if 'time' in df:
