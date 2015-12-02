@@ -246,7 +246,34 @@ def plot_distance( df, plot_control, axes ):
     minorLocator   = MultipleLocator(5) 
     axes.xaxis.set_major_formatter(formatter)
     axes.xaxis.set_minor_formatter(formatter)
+
     
+@wrap_axes
+def plot_timeline2( df, plot_control,axes ):
+    
+    hr, minute, sec = df.iloc[0].time.strftime('%H %M %S').split()
+    
+    if len(df) > 60*90:
+        x_step=15
+    elif len(df) > 60*50:
+        x_step=10
+    elif len(df) > 60*0:
+        x_step=5
+    
+    if int(minute) % x_step > 0:
+        start_min_plus = x_step - (int(minute) % x_step)
+    else:
+        start_min_plus = 0
+    
+    
+    df_xticks = [i + start_min_plus*60 for i in range( 60 - int(sec) , len(df) - start_min_plus*60, 60*x_step)]
+    df_labels = [  "{:0>2}:{:0>2}".format( (int(hr) + int( (i + start_min_plus)/60) ) , (i+ start_min_plus)%60 )  
+                 for i in range(int(minute) , int(minute) + len(df_xticks)*x_step, x_step)]
+
+    df[ plot_control['column'] ].plot(ax=axes,  xticks = df_xticks,
+                kind='area',color= plot_control['plot_color'] ,alpha = .7)    
+    axes.set_xticklabels(df_labels)
+
     
 def get_view_properties(view_type):
     if view_type == 'distance':
@@ -263,6 +290,11 @@ def get_view_properties(view_type):
         view_description = "TimeLine"
         view_xlabel = 'TimeLine'
         view_procedure = plot_timeline
+        view_units = ' '
+    elif view_type == 'timeline2':
+        view_description = "TimeLine"
+        view_xlabel = 'TimeLine'
+        view_procedure = plot_timeline2
         view_units = ' '
         
     return (view_description, view_xlabel, view_procedure, view_units )
